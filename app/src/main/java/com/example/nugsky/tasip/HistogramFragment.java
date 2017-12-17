@@ -1,13 +1,26 @@
 package com.example.nugsky.tasip;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.example.nugsky.tasip.utils.LastPhotoWrapper;
 import com.example.nugsky.tasip.utils.NotYetImplementedException;
+import com.example.nugsky.tasip.utils.Utils;
+
+import org.opencv.imgproc.Imgproc;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 
 /**
@@ -29,6 +42,8 @@ public class HistogramFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private Button photoSelectorButton;
 
     public HistogramFragment() {
         // Required empty public constructor
@@ -65,7 +80,19 @@ public class HistogramFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_histogram, container, false);
+        View view = inflater.inflate(R.layout.fragment_face_detection, container, false);
+
+        photoSelectorButton = (Button) view.findViewById(R.id.photo_selector);
+
+        final Fragment thisFragment = this;
+        photoSelectorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.pickImage(thisFragment);
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,6 +117,23 @@ public class HistogramFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == Utils.PICK_IMAGE) {
+            Toast.makeText(getContext(), "berhasil", Toast.LENGTH_SHORT).show();
+            try {
+                InputStream inputStream = getContext().getContentResolver().openInputStream(data.getData());
+                Bitmap b = BitmapFactory.decodeStream(inputStream);
+                LastPhotoWrapper.bitmap = b;
+                Intent intent = new Intent(getContext(), HistogramActivity.class);
+                this.startActivity(intent);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
