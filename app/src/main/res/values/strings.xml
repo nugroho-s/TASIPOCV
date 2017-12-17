@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">TASIPOCV</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="filter_prompt">Choose a filter</string>
+    <string-array name="filter_list">
+        <item>Median Filter</item>
+        <item>Mean Filter</item>
+        <item>Emboss Filter</item>
+        <item>Sharpen Filter</item>
+        <item>Sobel Filter</item>
+        <item>Laplace Filter</item>
+        <item>Prewitt Filter</item>
+        <item>Robinson Filter</item>
+    </string-array>
 </resources>
