@@ -22,7 +22,8 @@ import org.opencv.android.OpenCVLoader;
 
 public class MainActivity extends FragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener, HistogramFragment.OnFragmentInteractionListener,
-            FilterFragment.OnFragmentInteractionListener,FaceDetectionFragment.OnFragmentInteractionListener{
+            FilterFragment.OnFragmentInteractionListener,FaceDetectionFragment.OnFragmentInteractionListener,
+            EqualizeFragment.OnFragmentInteractionListener, OtsuFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "MainActivity";
 
@@ -109,7 +110,11 @@ public class MainActivity extends FragmentActivity
             fragment = new FaceDetectionFragment();
         } else if(id == R.id.nav_bordertracing){
             fragment = new BorderTracingFragment();
-        } else {
+        } else if (id == R.id.nav_equalize){
+            fragment = new EqualizeFragment();
+        } else if (id == R.id.nav_otsu){
+            fragment = new OtsuFragment();
+        }else {
             fragment = new FilterFragment();
         }
 

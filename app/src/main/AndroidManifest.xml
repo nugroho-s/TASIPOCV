@@ -16,8 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HistogramActivity"></activity>
-        <activity android:name=".PhotoActivity"></activity>
+        <activity android:name=".HistogramActivity" />
+        <activity android:name=".PhotoActivity" />
+        <activity android:name=".EqualizeActivity" />
+        <activity android:name=".OtsuActivity"></activity>
     </application>
 
 </manifest>

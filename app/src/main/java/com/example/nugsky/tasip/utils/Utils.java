@@ -1,7 +1,16 @@
 package com.example.nugsky.tasip.utils;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
+
+import com.example.nugsky.tasip.HistogramActivity;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /**
  * Created by nugsky on 17/12/17.
@@ -21,5 +30,18 @@ public class Utils {
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
 
         fragment.startActivityForResult(chooserIntent, PICK_IMAGE);
+    }
+
+    public static void passImage(Fragment fragment,Context context,Intent data,Class<?> dstCls){
+        Toast.makeText(context, "berhasil", Toast.LENGTH_SHORT).show();
+        try {
+            InputStream inputStream = context.getContentResolver().openInputStream(data.getData());
+            Bitmap b = BitmapFactory.decodeStream(inputStream);
+            LastPhotoWrapper.bitmap = b;
+            Intent intent = new Intent(context, dstCls);
+            fragment.startActivity(intent);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

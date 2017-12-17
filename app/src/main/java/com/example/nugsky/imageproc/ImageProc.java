@@ -5,9 +5,17 @@ import android.graphics.Color;
 import android.util.Log;
 import com.example.nugsky.imageproc.filter.KernelFilter;
 
+import org.opencv.android.Utils;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfFloat;
+import org.opencv.core.MatOfInt;
+import org.opencv.imgproc.Imgproc;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.*;
 
@@ -315,5 +323,48 @@ public class ImageProc {
 
             filtered.setPixel(x,y,Color.rgb(filteredValTruncated,filteredValTruncated,filteredValTruncated));
         }
+    }
+
+    public static Mat bitmap2Mat(Bitmap src){
+        Mat dst = new Mat();
+        Utils.bitmapToMat(src, dst);
+        return dst;
+    }
+
+    public static Bitmap mat2Bitmap(Mat src){
+        Bitmap dst = Bitmap.createBitmap(src.cols(),  src.rows(),Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(src,dst);
+        return dst;
+    }
+
+    public static Mat toGrayscale(Mat color){
+        Mat gray = new Mat();
+        Imgproc.cvtColor(color,gray,Imgproc.COLOR_BGR2GRAY);
+        return gray;
+    }
+
+    public static Mat getGrayHist(Mat image){
+        List<Mat> images = new ArrayList<>();
+        Core.split(image,images);
+
+        // set the number of bins at 256
+        MatOfInt histSize = new MatOfInt(256);
+        // only one channel
+        MatOfInt channels = new MatOfInt(0);
+        // set the ranges
+        MatOfFloat histRange = new MatOfFloat(0, 256);
+
+        Mat hist_g = new Mat();
+
+        // B component or gray image
+        Imgproc.calcHist(images.subList(0, 1), channels, new Mat(), hist_g, histSize, histRange, false);
+
+        return hist_g;
+    }
+
+    public static Mat otsuThreshold(Mat src){
+        Mat dst = new Mat();
+        Imgproc.threshold(src,dst,0,255,Imgproc.THRESH_OTSU);
+        return dst;
     }
 }

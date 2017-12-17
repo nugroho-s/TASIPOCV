@@ -108,8 +108,6 @@ public class HistogramActivity extends AppCompatActivity {
             greenData = new LineData(greenDataSet);
             blueData = new LineData(blueDataSet);
 
-            Log.d(TAG, String.valueOf(hist_b.get(1,0)[0]));
-
             return null;
         }
 

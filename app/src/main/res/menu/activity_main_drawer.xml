@@ -6,6 +6,12 @@
                     android:id="@+id/nav_histogram"
                     android:title="Histogram"/>
             <item
+                android:id="@+id/nav_equalize"
+                android:title="Histogram Equalization"/>
+            <item
+                android:id="@+id/nav_otsu"
+                android:title="Otsu Thresholding"/>
+            <item
                     android:id="@+id/nav_filter"
                     android:title="Filter dan Operator Diff"/>
         </menu>
