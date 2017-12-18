@@ -20,7 +20,8 @@
         <activity android:name=".PhotoActivity" />
         <activity android:name=".EqualizeActivity" />
         <activity android:name=".OtsuActivity" />
-        <activity android:name=".BorderTracingActivity"></activity>
+        <activity android:name=".BorderTracingActivity" />
+        <activity android:name=".FourierActivity"></activity>
     </application>
 
 </manifest>

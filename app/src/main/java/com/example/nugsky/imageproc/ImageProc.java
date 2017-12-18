@@ -12,6 +12,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
@@ -383,5 +384,70 @@ public class ImageProc {
             Imgproc.drawContours(dst,contours,i,new Scalar(255,0,0));
         }
         return dst;
+    }
+
+    public static Mat fastFourier(Mat I,List<Mat> planes, Mat complexI){
+        Mat padded = new Mat();                     //expand input image to optimal size
+        int m = Core.getOptimalDFTSize( I.rows() );
+        int n = Core.getOptimalDFTSize( I.cols() ); // on the border add zero values
+        Core.copyMakeBorder(I, padded, 0, m - I.rows(), 0, n - I.cols(), Core.BORDER_CONSTANT, Scalar.all(0));
+        padded.convertTo(padded, CvType.CV_32F);
+        planes.add(padded);
+        planes.add(Mat.zeros(padded.size(), CvType.CV_32F));
+        Core.merge(planes, complexI);         // Add to the expanded another plane with zeros
+        Core.dft(complexI, complexI);         // this way the result may fit in the source matrix
+
+        int height = complexI.height();
+        int width = complexI.width();
+
+        int tengah = height/15;
+
+        for(int i=0;i<tengah;i++){
+            for(int j=0;j<tengah;j++){
+                double[] data = complexI.get(i, j); //Stores element in an array
+                complexI.put(i,j,0,0);
+                complexI.put(height-i,width-j,0,0);
+                complexI.put(i,width-j,0,0);
+                complexI.put(height-i,j,0,0);
+            }
+        }
+
+        // compute the magnitude and switch to logarithmic scale
+        // => log(1 + sqrt(Re(DFT(I))^2 + Im(DFT(I))^2))
+        Core.split(complexI, planes);                               // planes.get(0) = Re(DFT(I)
+        // planes.get(1) = Im(DFT(I))
+        Core.magnitude(planes.get(0), planes.get(1), planes.get(0));// planes.get(0) = magnitude
+        Mat magI = planes.get(0);
+        Mat matOfOnes = Mat.ones(magI.size(), magI.type());
+        Core.add(matOfOnes, magI, magI);         // switch to logarithmic scale
+        Core.log(magI, magI);
+        // crop the spectrum, if it has an odd number of rows or columns
+        magI = magI.submat(new Rect(0, 0, magI.cols() & -2, magI.rows() & -2));
+        // rearrange the quadrants of Fourier image  so that the origin is at the image center
+        int cx = magI.cols()/2;
+        int cy = magI.rows()/2;
+        Mat q0 = new Mat(magI, new Rect(0, 0, cx, cy));   // Top-Left - Create a ROI per quadrant
+        Mat q1 = new Mat(magI, new Rect(cx, 0, cx, cy));  // Top-Right
+        Mat q2 = new Mat(magI, new Rect(0, cy, cx, cy));  // Bottom-Left
+        Mat q3 = new Mat(magI, new Rect(cx, cy, cx, cy)); // Bottom-Right
+        Mat tmp = new Mat();               // swap quadrants (Top-Left with Bottom-Right)
+        q0.copyTo(tmp);
+        q3.copyTo(q0);
+        tmp.copyTo(q3);
+        q1.copyTo(tmp);                    // swap quadrant (Top-Right with Bottom-Left)
+        q2.copyTo(q1);
+        tmp.copyTo(q2);
+        magI.convertTo(magI, CvType.CV_8UC1);
+        Core.normalize(magI, magI, 0, 255, Core.NORM_MINMAX, CvType.CV_8UC1); // Transform the matrix with float values
+        return magI;
+    }
+
+    public static Mat fastFourierInverse(List<Mat> planes, Mat complexI){
+        Core.idft(complexI, complexI);
+        Mat restoredImage = new Mat();
+        Core.split(complexI, planes);
+        Core.normalize(planes.get(0), restoredImage, 0, 255, Core.NORM_MINMAX);
+        restoredImage.convertTo(restoredImage, CvType.CV_8U);
+        return restoredImage;
     }
 }

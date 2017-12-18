@@ -14,6 +14,9 @@
             <item
                     android:id="@+id/nav_filter"
                     android:title="Filter dan Operator Diff"/>
+            <item
+                android:id="@+id/nav_fourier"
+                android:title="Transformasi Fourier"/>
         </menu>
     </item>
 

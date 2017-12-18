@@ -25,7 +25,7 @@ public class MainActivity extends FragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener, HistogramFragment.OnFragmentInteractionListener,
             FilterFragment.OnFragmentInteractionListener,FaceDetectionFragment.OnFragmentInteractionListener,
             EqualizeFragment.OnFragmentInteractionListener, OtsuFragment.OnFragmentInteractionListener,
-            BorderTracingFragment.OnFragmentInteractionListener{
+            BorderTracingFragment.OnFragmentInteractionListener, FourierFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "MainActivity";
 
@@ -116,6 +116,8 @@ public class MainActivity extends FragmentActivity
             fragment = new EqualizeFragment();
         } else if (id == R.id.nav_otsu){
             fragment = new OtsuFragment();
+        } else if(id == R.id.nav_fourier){
+            fragment = new FourierFragment();
         }else {
             fragment = new FilterFragment();
         }

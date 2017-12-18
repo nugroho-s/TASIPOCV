@@ -20,4 +20,5 @@
         <item>Prewitt Filter</item>
         <item>Robinson Filter</item>
     </string-array>
+    <string name="title_activity_fourier">FourierActivity</string>
 </resources>
