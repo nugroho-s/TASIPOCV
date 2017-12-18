@@ -72,14 +72,7 @@ public class OtsuFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_photo_selector, container, false);
 
-        button = (Button) view.findViewById(R.id.photo_selector);
-        final Fragment thisFragment = this;
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.pickImage(thisFragment);
-            }
-        });
+        Utils.initSelectorFragment(this,view);
 
         return view;
     }

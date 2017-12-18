@@ -80,17 +80,11 @@ public class HistogramFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_face_detection, container, false);
+        View view = inflater.inflate(R.layout.fragment_photo_selector, container, false);
 
         photoSelectorButton = (Button) view.findViewById(R.id.photo_selector);
 
-        final Fragment thisFragment = this;
-        photoSelectorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.pickImage(thisFragment);
-            }
-        });
+        Utils.initSelectorFragment(this,view);
 
         return view;
     }
@@ -123,16 +117,7 @@ public class HistogramFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (requestCode == Utils.PICK_IMAGE) {
-            Toast.makeText(getContext(), "berhasil", Toast.LENGTH_SHORT).show();
-            try {
-                InputStream inputStream = getContext().getContentResolver().openInputStream(data.getData());
-                Bitmap b = BitmapFactory.decodeStream(inputStream);
-                LastPhotoWrapper.bitmap = b;
-                Intent intent = new Intent(getContext(), HistogramActivity.class);
-                this.startActivity(intent);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            Utils.passImage(this,this.getContext(),data,HistogramActivity.class);
         }
     }
 

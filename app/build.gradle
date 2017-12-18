@@ -42,5 +42,6 @@ dependencies {
     compile 'com.android.support:design:26.+'
     compile 'com.google.android.gms:play-services-vision:11.0.0'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    compile 'com.github.chrisbanes:PhotoView:2.0.0'
     testCompile 'junit:junit:4.12'
 }

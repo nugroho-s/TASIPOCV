@@ -84,12 +84,12 @@ public class HistogramActivity extends AppCompatActivity {
             Mat hist_g = new Mat();
             Mat hist_r = new Mat();
 
-            // B component or gray image
-            Imgproc.calcHist(images.subList(0, 1), channels, new Mat(), hist_b, histSize, histRange, false);
+            // R component or gray image
+            Imgproc.calcHist(images.subList(0, 1), channels, new Mat(), hist_r, histSize, histRange, false);
 
-            // G and R components (if the image is not in gray scale)
+            // G and B components (if the image is not in gray scale)
             Imgproc.calcHist(images.subList(1, 2), channels, new Mat(), hist_g, histSize, histRange, false);
-            Imgproc.calcHist(images.subList(2, 3), channels, new Mat(), hist_r, histSize, histRange, false);
+            Imgproc.calcHist(images.subList(2, 3), channels, new Mat(), hist_b, histSize, histRange, false);
 
             for(int i=0;i<256;i++){
                 redEntries.add(new Entry(i, (float) hist_r.get(i,0)[0]));
@@ -98,8 +98,8 @@ public class HistogramActivity extends AppCompatActivity {
             }
 
             LineDataSet redDataSet = new LineDataSet(redEntries,"RED");
-            LineDataSet greenDataSet = new LineDataSet(redEntries,"GREEN");
-            LineDataSet blueDataSet = new LineDataSet(redEntries,"BLUE");
+            LineDataSet greenDataSet = new LineDataSet(greenEntries,"GREEN");
+            LineDataSet blueDataSet = new LineDataSet(blueEntries,"BLUE");
             redDataSet.setColor(Color.RED);
             greenDataSet.setColor(Color.GREEN);
             blueDataSet.setColor(Color.BLUE);

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -23,7 +24,8 @@ import org.opencv.android.OpenCVLoader;
 public class MainActivity extends FragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener, HistogramFragment.OnFragmentInteractionListener,
             FilterFragment.OnFragmentInteractionListener,FaceDetectionFragment.OnFragmentInteractionListener,
-            EqualizeFragment.OnFragmentInteractionListener, OtsuFragment.OnFragmentInteractionListener{
+            EqualizeFragment.OnFragmentInteractionListener, OtsuFragment.OnFragmentInteractionListener,
+            BorderTracingFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "MainActivity";
 

@@ -1,13 +1,18 @@
 package com.example.nugsky.tasip;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
 import com.example.nugsky.tasip.utils.NotYetImplementedException;
+import com.example.nugsky.tasip.utils.Utils;
 
 
 /**
@@ -29,6 +34,7 @@ public class BorderTracingFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    Button button;
 
     public BorderTracingFragment() {
         // Required empty public constructor
@@ -65,7 +71,11 @@ public class BorderTracingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_border_tracing, container, false);
+        View view = inflater.inflate(R.layout.fragment_photo_selector, container, false);
+
+        Utils.initSelectorFragment(this,view);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,6 +100,13 @@ public class BorderTracingFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==Utils.PICK_IMAGE){
+            Utils.passImage(this,this.getContext(),data,BorderTracingActivity.class);
+        }
     }
 
     /**

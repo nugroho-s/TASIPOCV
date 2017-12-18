@@ -19,7 +19,8 @@
         <activity android:name=".HistogramActivity" />
         <activity android:name=".PhotoActivity" />
         <activity android:name=".EqualizeActivity" />
-        <activity android:name=".OtsuActivity"></activity>
+        <activity android:name=".OtsuActivity" />
+        <activity android:name=".BorderTracingActivity"></activity>
     </application>
 
 </manifest>

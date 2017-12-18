@@ -63,7 +63,7 @@ public class EqualizeActivity extends AppCompatActivity {
             }
 
             LineDataSet normalDataSet = new LineDataSet(normalEntries,"normal");
-            LineDataSet equalizedDataSet = new LineDataSet(normalEntries,"equalized");
+            LineDataSet equalizedDataSet = new LineDataSet(equalizedEntries,"equalized");
 
             normalData = new LineData(normalDataSet);
             equalizedData = new LineData(equalizedDataSet);

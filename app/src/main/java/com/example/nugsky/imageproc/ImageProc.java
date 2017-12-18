@@ -7,9 +7,12 @@ import com.example.nugsky.imageproc.filter.KernelFilter;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
@@ -365,6 +368,20 @@ public class ImageProc {
     public static Mat otsuThreshold(Mat src){
         Mat dst = new Mat();
         Imgproc.threshold(src,dst,0,255,Imgproc.THRESH_OTSU);
+        return dst;
+    }
+
+    public static List<MatOfPoint> findChainCode(Mat src){
+        List<MatOfPoint> contours = new ArrayList<>();
+        Imgproc.findContours(src,contours,new Mat(),Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
+        return contours;
+    }
+
+    public static Mat drawContours(List<MatOfPoint> contours,int rows,int cols){
+        Mat dst = new Mat(rows,cols, CvType.CV_8UC3);
+        for(int i=0;i<contours.size();i++){
+            Imgproc.drawContours(dst,contours,i,new Scalar(255,0,0));
+        }
         return dst;
     }
 }

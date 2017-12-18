@@ -21,7 +21,7 @@
         <menu>
             <item
                     android:id="@+id/nav_bordertracing"
-                    android:title="Deteksi Wajah"/>
+                    android:title="Border Tracing"/>
             <item
                     android:id="@+id/nav_facedetection"
                     android:title="Deteksi Wajah"/>

@@ -5,9 +5,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.ActionBar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nugsky.tasip.HistogramActivity;
+import com.example.nugsky.tasip.R;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -32,6 +38,15 @@ public class Utils {
         fragment.startActivityForResult(chooserIntent, PICK_IMAGE);
     }
 
+    public static void setPhotoSelector(Button button, final Fragment fragment){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickImage(fragment);
+            }
+        });
+    }
+
     public static void passImage(Fragment fragment,Context context,Intent data,Class<?> dstCls){
         Toast.makeText(context, "berhasil", Toast.LENGTH_SHORT).show();
         try {
@@ -43,5 +58,24 @@ public class Utils {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void setTitle(Fragment fragment,String title){
+        android.app.ActionBar actionBar = fragment.getActivity().getActionBar();
+        actionBar.setTitle(title);
+    }
+
+    public static void setTextTitle(TextView textView, String text){
+        textView.setText(String.format("Select an image for %s",text));
+    }
+
+    public static void setTextTitle(Fragment fragment,View view){
+        TextView textView = view.findViewById(R.id.select_message);
+        textView.setText("Select an image for "+fragment.getClass().getSimpleName());
+    }
+
+    public static void initSelectorFragment(Fragment fragment, View view){
+        setTextTitle(fragment,view);
+        setPhotoSelector((Button)view.findViewById(R.id.photo_selector),fragment);
     }
 }
